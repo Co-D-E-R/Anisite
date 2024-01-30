@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import axios from "axios";
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import AllAnime from "../components/AllAnime";
 
@@ -44,21 +44,28 @@ function ViewAll() {
     getData();
   }, [page]);
 
-  useEffect(() =>{
-    window.onscroll = function(ev) {
-      if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight) {
-          setPage((prev) => prev + 1); 
+  useEffect(() => {
+    const handleScroll = (ev) => {
+      if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight - 3) {
+        setPage((prev) => prev + 1);
       }
-  };
+    };
 
-  },[page,hasNext])
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+
+
+  }, [page, hasNext])
 
 
 
   return <>
-     <h1 className="font-semibold pl-7 py-2 b text-xl">{url.toUpperCase()}</h1>
+    <h1 className="font-semibold pl-7 py-2 b text-xl">{url.toUpperCase()}</h1>
     <div className="grid g)rid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mx-auto w-11/12 justify-center">
-      {anime.map((i) => 
+      {anime.map((i) =>
         <AllAnime key={i.id} anime={i} />
       )
       }

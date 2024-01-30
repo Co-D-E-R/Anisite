@@ -25,7 +25,7 @@ function App() {
       <Routes>
         <Route path="/" exact element={<AppData />} />
         <Route path="/anime/info/:id/:title" exact element={<AnimeDetail />}/>
-        <Route path="/anime/search/:search" exact element={<AnimeSearch/>} />
+        <Route path="/anime/search" exact element={<AnimeSearch/>} />
         <Route path="/anime/:id/gogoanime/:epid/:epnum" element={<NewAnimePlayer/>} />
         <Route path="/anime/:id/:provider/:epid/:epnum/:subtype" element={<AnimePlayer/>} /> 
         <Route path="/anime" exact element={<Home />}/>

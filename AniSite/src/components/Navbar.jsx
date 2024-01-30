@@ -3,9 +3,11 @@ import React, { useContext, useEffect } from 'react';
 import SearchApp from './SearchApp';
 import { Link } from 'react-router-dom';
 import { DataContext } from '../context/DataContext';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const { isopen, setisopen } = useContext(DataContext);
+  const Navigate = useNavigate();
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -33,7 +35,10 @@ function Navbar() {
         </div>
       </div>
       <div className="m-auto w-10/12 flex justify-end  md:w-11/12 md:flex md:justify-end">
-        <button onClick={() => setisopen(true)} className="bg-transparent border-0 cursor-pointer ">
+        <div>
+          <input type="text" onClick={() => setisopen(true)} className="border-2 border-gray-300 p-1 w-full text-white rounded-xl mr-5 bg-black" placeholder="/Search" />
+        </div>
+        <button onClick={() => Navigate(`/anime/search`)} className="bg-transparent border-0 cursor-pointer ml-5 ">
 
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M6 10v2a4 4 0 004 4h2a4 4 0 004-4v-2a4 4 0 00-4-4h-2a4 4 0 00-4 4z" />

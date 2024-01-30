@@ -22,7 +22,7 @@ function SearchApp() {
         try {
             const res = await axios.get(`${import.meta.env.VITE_URL}/meta/anilist/advanced-search`, { params: { query: query, sort: ["POPULARITY_DESC", "SCORE_DESC"] } });
             setResult(res.data);
-            console.log(res.data);
+            // console.log(res.data);
             setLoading(false);
         } catch (error) {
             console.log(error);

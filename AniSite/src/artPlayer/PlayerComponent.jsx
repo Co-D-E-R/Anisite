@@ -13,18 +13,10 @@ function PlayerComponent({ epid, epnum, provider, subtype, nextEp, eptitle, serv
     const [epSource, setEpSource] = useState(null);
     const [uri, setUri] = useState("");
     const [subtitle, setSubtitle] = useState("");
-    const [aspectRatio, setAspectRatio] = useState(null);
-    const [skip, setSkip] = useState({});
+   
     const navigate = useNavigate();
 
 
-
-    function calculateAspectRatio(width, height) {
-        const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
-        const divisor = gcd(width, height);
-        const aspectRatio = `${width / divisor}/${height / divisor}`;
-        return aspectRatio;
-    }
     // console.log(server === "2");
 
     const getSource = async () => {
@@ -39,12 +31,14 @@ function PlayerComponent({ epid, epnum, provider, subtype, nextEp, eptitle, serv
                 &episodeNumber=${epnum}&id=${animeData.id}&subType=${subtype}`
                 );
                 sourceData = response.data;
+                setEpSource(sourceData);
             }else if(server === "2"){
                 const response  = await axios.get(
                     `${import.meta.env.VITE_URL}/anime/gogoanime/watch/${epid}`
                 );
                 sourceData = response.data;
                 // console.log(sourceData);
+                setEpSource(sourceData);
             }
             sourceData.sources.map((i) => {
                 if (i.quality === "720p") {
@@ -60,28 +54,11 @@ function PlayerComponent({ epid, epnum, provider, subtype, nextEp, eptitle, serv
                 setSubtitle("");
             }
 
-            if (provider !== "gogoanime") {
-                if (sourceData) {
-                    const op = {
-                        interval: {
-                            startTime: sourceData.intro.start,
-                            endTime: sourceData.intro.end,
-                        }
-                    };
-                    const ed = {
-                        interval: {
-                            startTime: sourceData.outro.start,
-                            endTime: sourceData.outro.end,
-                        }
-                    };
-                    setSkip({
-                        op,
-                        ed,
-                    });
-                }
-            }
         } catch (error) {
-            return { error: error.message, status: error.response.status };
+            return { 
+                error: error.message, 
+                status: error.response ? error.response.status : 'No response'
+             };
         }
         finally {
             setLoading(false);
@@ -92,7 +69,7 @@ function PlayerComponent({ epid, epnum, provider, subtype, nextEp, eptitle, serv
     }, [epid, epnum, provider, subtype]);
 
     //for artplayer instance
-
+    // console.log(epSource);
 
 
 
@@ -164,13 +141,6 @@ function PlayerComponent({ epid, epnum, provider, subtype, nextEp, eptitle, serv
             });
         });
 
-        art.on("video:loadedmetadata", () => {
-            const aspect = calculateAspectRatio(
-                art.video.videoWidth,
-                art.video.videoHeight
-            );
-            setAspectRatio(aspect);
-        });
 
         art.on("video:ended", () => {
             if (!nextEp?.nextEpNumber) return;

@@ -11,6 +11,7 @@ function AnimeDetail() {
     const { id, title } = useParams();
     const { fetchAnimeEpisode, fetchAnime ,fetchNewEpisode } = useContext(DataContext);
     const [anime, setAnime] = useState([]);
+    const [isExpanded, setIsExpanded] = useState(false);
     const [episode, setEpisode] = useState([]);
     const [Loading, setLoading] = useState(true);
     const [epLoading, setEpLoading] = useState(true);
@@ -115,20 +116,19 @@ function AnimeDetail() {
                     <div>
                         <img src={anime.cover ? anime.cover : img
                         } alt={anime.title.english} className="w-full h-96 object-cover rounded-xl sm:h-60 sm:rounded-2xl sm:w-[85%] sm:mx-auto" />
-                        <div className='flex p-0 px-12 relative'>
-                            <div className='flex flex-col' >
-                                <div className='pic'>
-                                <img src={anime.image || anime.coverImage} alt="image" className="w-56 h-75 rounded-lg mb-8 relative -top-20 shadow-lg transform hover:scale-110 transition-transform duration-200 " />
+                        <div className='flex p-0 pl-5 pr-12 relative'>
+                            <div className='flex flex-col pl-14 mr-12' >
+                                <div className=''>
+                                <img src={anime.image || anime.coverImage} alt="image" className="w-56 h-75 rounded-lg mb-4 relative -top-20 shadow-lg transform hover:scale-110 transition-transform duration-200 " />
                                 {epLoading && (
                                     <div>
                                         <Skeleton
                                             height={"50px"} width={"100%"} baseColor={"#d67e83"} highlightColor={"#e8bcb8"} />
                                     </div>
                                 )}
+                                 {/* <h1 className='font-semibold text-2xl text-white mt-4 mb-2'>{anime.title.english || anime.title.romaji}</h1> */}
                                 </div>
-                                <div>
-                                    <h1 className='font-semibold text-2xl text-white mt-4 mb-2'>{anime.title.english || anime.title.romaji}</h1>
-                                </div>
+                                
                             </div>
 
                             <div>
@@ -168,6 +168,9 @@ function AnimeDetail() {
                                         </>
                                     )}
                                 </div>
+                                <div>
+                                    <h1 className='font-semibold text-2xl text-white mt-1 mb-2'>{anime.title.english || anime.title.romaji}</h1>
+                                </div>
 
                                 <p>
                                     <span>Type:</span>
@@ -197,11 +200,16 @@ function AnimeDetail() {
                                     <span>Rating:</span>
                                     {anime.rating}
                                 </p>
+                                <div>
                                 <p>
                                     <span>Description:</span>
-                                    {anime.description}
+                                    {isExpanded ?anime.description : `${anime.description.substring(0, 200)}...`}
+                                    <button className="text-blue-500" onClick={() => setIsExpanded(!isExpanded)}>
+                                        {isExpanded ? "show less" : "read more"}
+                                    </button>
 
                                 </p>
+                                </div>
                             </div>
                         </div>
                     </div>
