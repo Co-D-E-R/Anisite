@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React ,{ useEffect, useRef } from 'react';
 import Artplayer from 'artplayer';
 
 export default function ArtPlayer({ option, getInstance, ...rest }) {
