@@ -74,7 +74,7 @@ const GetData = ({ children }) => {
     const fetchAnime = async (id) => {
         try {
             const response = await axios.get(
-                `${import.meta.env.VITE_URL}meta/anilist/info/${id}`,
+                `${import.meta.env.VITE_URL}/meta/anilist/info/${id}`,
                 {
                     params: {
                         provider: 'animefox',
