@@ -13,11 +13,13 @@
     "@headlessui/react": "^1.7.18",
     "artplayer": "^5.1.1",
     "artplayer-plugin-hls-quality": "^2.0.0",
+    "axios": "^1.6.7",
     "hls.js": "^1.5.2-0.canary.9921",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-loading-skeleton": "^3.3.1",
     "react-router-dom": "^6.21.3",
+    "react-spinners": "^0.13.8",
     "react-use-draggable-scroll": "^0.4.7",
     "swiper": "^11.0.5"
   },

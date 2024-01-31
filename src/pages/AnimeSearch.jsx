@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import AllAnime from "../components/AllAnime";
 
 
+
+
 function AnimeSearch() {
     const [anime, setAnime] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -69,23 +71,29 @@ function AnimeSearch() {
     return (
 
         <div>
-            <div className=" border-spacing-2 border-white outline-none text-black">
-                <input type="text" placeholder="Search Anime" onChange={(e) => handlechange(e)} />
+            {/* <div className="font-medium text-blue-700 justify-center  text-xl "> */}
+               
+            <div className=" border-spacing-2 mx-5 my-7 justify-center text-center font-medium text-xl outline-none  text-white">
+                <h1 className='my-3'>Search Box</h1>
+                <input type="text" placeholder="Search Anime" onChange={(e) => handlechange(e)} className='bg-black rounded-xl h-10 w-1/2 md:w-2/5 mx-auto text-gray-300' />
             </div>
-            {/* {loading && 
-            <> */}
+            {loading ? (
+            <>
             <div className="grid g)rid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mx-auto w-11/12 justify-center">
                 {anime && anime.map((i) =>
                     <AllAnime key={i.id} anime={i} />
                 )
                 }
             </div>
-            <div className="font-semibold justify-center text-xl">
+            <div className="font-medium text-blue-700 justify-center  text-xl text-center">
                 {!hasNext && <span>END OF THE PAGE</span>}
             </div>
-            {/* </>
-            }
-            {!loading && <span>LOADING...</span>} */}
+            </>
+            ) : (
+                null
+            )}
+        
+
 
         </div>
     )

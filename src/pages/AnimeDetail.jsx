@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState,useRef } from "react";
 import { DataContext } from "../context/DataContext";
 import img from "../assets/notFound.jpg";
 import { useParams, Link } from "react-router-dom";
+import BeatLoader from "react-spinners/BeatLoader";
 import Skeleton from "react-loading-skeleton";
 
 
@@ -16,6 +17,7 @@ function AnimeDetail() {
     const [Loading, setLoading] = useState(true);
     const [epLoading, setEpLoading] = useState(true);
     const [newEpLoading, setNewEpLoading] = useState(true);
+    const [newEp, setNewEp] = useState(false);
     const { widtth } = WindowDimension();
     const [localStorageDetail, setLocalStorageDetail] = useState(0);
     const [newEpisode, setNewEpisode] = useState([]);
@@ -41,6 +43,7 @@ function AnimeDetail() {
             setLoading(false);
         }
     }
+
     //gogoanime server
     const getnewEpisode = async () => {
         setNewEpLoading(true);
@@ -55,8 +58,10 @@ function AnimeDetail() {
             // }
             const getNewEpisodes = await fetchNewEpisode(newid.current);
             setNewEpisode(getNewEpisodes.episodes);
+            setNewEp(false);
                 
         }catch(error){
+            setNewEp(true);
             console.log(error , "Error finding the new anime data");
         }finally{
             setNewEpLoading(false);
@@ -90,8 +95,13 @@ function AnimeDetail() {
     }
     useEffect(() => {
         getData();
-        getEpisode();
-        getnewEpisode();
+        if(newEp === false){
+            getnewEpisode();
+        }else{
+            getEpisode();
+        }
+        
+        
     }, [id]);
 
     function getLocalStorage(anime) {
@@ -107,7 +117,9 @@ function AnimeDetail() {
 
         }
     }
-   
+//    if(newEpLoading){
+//     return <ClipLoader color="#ffffff" loading={newEpLoading} size={150} />;
+//    }
 
     return (
         <>
@@ -119,7 +131,7 @@ function AnimeDetail() {
                         <div className='flex p-0 pl-5 pr-12 relative'>
                             <div className='flex flex-col pl-14 mr-12' >
                                 <div className=''>
-                                <img src={anime.image || anime.coverImage} alt="image" className="w-56 h-75 rounded-lg mb-4 relative -top-20 shadow-lg transform hover:scale-110 transition-transform duration-200 " />
+                                <img src={anime.image || anime.coverImage} alt="image" className="w-56 h-75 rounded-lg mb-4 relative -top-20 shadow-lg transform hover:scale-110 transition-transform duration-200 min-w-[200px]" />
                                 {epLoading && (
                                     <div>
                                         <Skeleton
@@ -131,9 +143,9 @@ function AnimeDetail() {
                                 
                             </div>
 
-                            <div>
+                            <div className='mt-5'>
                                 <div>
-                                    {!newEpLoading && (
+                                    {!newEpLoading ? (
                                         <>
                                             {localStorageDetail !== 0 && newEpisode && newEpisode?.length > 0 ? (
                                                 <Link to={`/anime/${newEpisode[0].id}`}>
@@ -148,6 +160,11 @@ function AnimeDetail() {
                                             )}
                                         
                                         </>
+                                    ) : (
+                                        <div>
+                                            <BeatLoader color="#36d7b7" loading={newEpLoading} size={20} margin={5} speedMultiplier={1} />
+                                        </div>
+                                    
                                     )}
                                 </div>
                                 <div>
@@ -169,7 +186,7 @@ function AnimeDetail() {
                                     )}
                                 </div>
                                 <div>
-                                    <h1 className='font-semibold text-2xl text-white mt-1 mb-2'>{anime.title.english || anime.title.romaji}</h1>
+                                    <h1 className='font-semibold text-2xl text-white my-5'>{anime.title.english || anime.title.romaji}</h1>
                                 </div>
 
                                 <p>

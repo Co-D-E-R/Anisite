@@ -7,9 +7,7 @@ import { GetData} from "./context/DataContext";
 import AppData from "./pages/AppData"
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
-import RecentEpisode from "./pages/RecentEpisode";
 import ViewAll from "./pages/ViewAll";
-// import Trending from "./pages/Trending";
 import AnimeDetail from "./pages/AnimeDetail";
 import AnimePlayer from './pages/AnimePlayer';
 import AnimeSearch from './pages/AnimeSearch';
@@ -29,7 +27,6 @@ function App() {
         <Route path="/anime/:id/gogoanime/:epid/:epnum" element={<NewAnimePlayer/>} />
         <Route path="/anime/:id/:provider/:epid/:epnum/:subtype" element={<AnimePlayer/>} /> 
         <Route path="/anime" exact element={<Home />}/>
-        <Route path="/anime/all/recent-episodes" exact element={<RecentEpisode />}/>
         <Route path="/anime/all/:url" exact element={<ViewAll />}/>
 
      

@@ -4,14 +4,16 @@ import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import 'swiper/css/free-mode';
-import { useDraggable } from "react-use-draggable-scroll";
 import { FreeMode } from 'swiper/modules';
 import '../styles/AnimeCard.css';
+
 
 
 function AnimeCard({ url }) {
     const [data, setData] = useState([]);
     const [Loading, setLoading] = useState(true);
+    const [page, setPage] = useState(1);
+    const [hasNext, setHasNext] = useState(true);
 
 
     // const containerRef = useRef();
@@ -21,13 +23,18 @@ function AnimeCard({ url }) {
         try {
             const res = await axios.get(`${import.meta.env.VITE_URL}/meta/anilist/${url}`, {
                 params: {
-                    page: 1,
-                    PerPage: 20,
+                    page: page,
                 },
             });
-        
-            console.log(res.data.results);
-            setData(res.data.results);
+            if (page > 1) {
+                setData((prev) => [...prev, ...res.data.results]);
+                setHasNext(res.data.hasNextPage);
+            }else{
+                setData(res.data.results);
+                setHasNext(res.data.hasNextPage);
+            }
+            // console.log(res.data);
+            // setData(res.data.results);
             setLoading(false);
         } catch (error) {
             console.error("Error finding the anime data", error);
@@ -37,9 +44,14 @@ function AnimeCard({ url }) {
             setLoading(false);
         }
     };
+  
     useEffect(() => {
         getAnime();
-    }, []);
+    }, [page]);
+
+
+
+  
     // if(Loading){
     //     return <div className="" {...events} ref={containerRef}>Loading...</div>
     // }
@@ -47,7 +59,7 @@ function AnimeCard({ url }) {
     return !Loading ? (
         <div className="flex flex-row p-1">
             <div className="flex items-center relative overflow-hidden scroll-smooth ">
-                <Swiper slidesPerView="auto" grabCursor freeMode={{ enabled: true, momentum: true, momentumRatio: 0.8 }} modules={[FreeMode]}>
+                <Swiper slidesPerView="auto" grabCursor freeMode={{ enabled: true, momentum: true, momentumRatio: 0.8 }} modules={[FreeMode]} onReachEnd={() => hasNext && setPage((prev) => prev + 1)}>
                     {data.map((anime) => (
                         <SwiperSlide key={anime.id} className='animecarditem flex-col overflow-scroll  p-1 mr-3 rounded-md w-44 h-75' >
                             <Link to={`/anime/info/${anime.id}/${anime.title.romaji}`}>
