@@ -11,11 +11,6 @@ export default function Home() {
             condition: localStorage.getItem("notfound") === "popular" ? true : false
         },
         {
-            title:"Recently Update",
-            url:"recent-episodes",
-            condition: localStorage.getItem("notfound") === "recent-episodes" ? true : false
-        },
-        {
             title:"Trending Anime",
             url:"trending",
             condition: localStorage.getItem("notfound") === "trending" ? true : false
