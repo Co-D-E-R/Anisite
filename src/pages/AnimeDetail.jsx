@@ -78,7 +78,7 @@ function AnimeDetail() {
         setEpLoading(true);
         try {
             const getEpisodes = await fetchAnimeEpisode(id);
-            const animeProvider = getEpisodes.find((i) => i.providerId === 'zoro' || i.providerId === 'gogoanime');//If it founds the gogoanime provider then it will return the episode
+            const animeProvider = getEpisodes.find((i) => i.providerId === 'gogoanime' || i.providerId === 'zoro');//If it founds the gogoanime provider then it will return the episode
 
             if (animeProvider) {
                 setEpisode(animeProvider);
