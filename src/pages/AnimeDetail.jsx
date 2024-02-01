@@ -1,6 +1,6 @@
 import WindowDimension from '../Utils/WindowDimension';
 import axios from "axios";
-import React, { useContext, useEffect, useState,useRef } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { DataContext } from "../context/DataContext";
 import img from "../assets/notFound.jpg";
 import { useParams, Link } from "react-router-dom";
@@ -10,7 +10,7 @@ import Skeleton from "react-loading-skeleton";
 
 function AnimeDetail() {
     const { id, title } = useParams();
-    const { fetchAnimeEpisode, fetchAnime ,fetchNewEpisode } = useContext(DataContext);
+    const { fetchAnimeEpisode, fetchAnime, fetchNewEpisode } = useContext(DataContext);
     const [anime, setAnime] = useState([]);
     const [isExpanded, setIsExpanded] = useState(false);
     const [episode, setEpisode] = useState([]);
@@ -22,7 +22,7 @@ function AnimeDetail() {
     const [localStorageDetail, setLocalStorageDetail] = useState(0);
     const [newEpisode, setNewEpisode] = useState([]);
     const subtype = "sub";
-    const newid= useRef(null);
+    const newid = useRef(null);
 
 
     const getData = async () => {
@@ -49,8 +49,8 @@ function AnimeDetail() {
         setNewEpLoading(true);
         try {
             const res = await axios.get(`${import.meta.env.VITE_URL}/anime/gogoanime/${title}`);
-            if(res.data.results && res.data.results[0]){
-                newid.current =res.data.results[0].id
+            if (res.data.results && res.data.results[0]) {
+                newid.current = res.data.results[0].id
             }
             // const res1  = await axios.get(`${import.meta.env.VITE_URL}/anime/gogoanime/info/${newid.current}`);
             // if(res1.data.episodes && res1.data.episodes.length > 0){
@@ -58,17 +58,15 @@ function AnimeDetail() {
             // }
             const getNewEpisodes = await fetchNewEpisode(newid.current);
             setNewEpisode(getNewEpisodes.episodes);
+
+        } catch (error) {
             setNewEp(false);
-                
-        }catch(error){
-            setNewEp(true);
-            console.log(error , "Error finding the new anime data");
-        }finally{
+            console.log(error, "Error finding the new anime data");
+        } finally {
             setNewEpLoading(false);
         }
 
     }
-  
 
 
 
@@ -80,7 +78,7 @@ function AnimeDetail() {
         setEpLoading(true);
         try {
             const getEpisodes = await fetchAnimeEpisode(id);
-            const animeProvider = getEpisodes.find((i) => i.providerId === 'gogoanime');//If it founds the gogoanime provider then it will return the episode
+            const animeProvider = getEpisodes.find((i) => i.providerId === 'zoro' || i.providerId === 'gogoanime');//If it founds the gogoanime provider then it will return the episode
 
             if (animeProvider) {
                 setEpisode(animeProvider);
@@ -88,6 +86,7 @@ function AnimeDetail() {
                 setEpisode(getEpisodes[0]);
             }
         } catch (error) {
+            setNewEp(true);
             console.error("Error finding the anime episode", error);
         } finally {
             setEpLoading(false);
@@ -95,13 +94,13 @@ function AnimeDetail() {
     }
     useEffect(() => {
         getData();
-        if(newEp === false){
-            getnewEpisode();
-        }else{
+        if (newEp === false) {
             getEpisode();
+        } else {
+            getnewEpisode();
         }
-        
-        
+
+
     }, [id]);
 
     function getLocalStorage(anime) {
@@ -117,30 +116,30 @@ function AnimeDetail() {
 
         }
     }
-//    if(newEpLoading){
-//     return <ClipLoader color="#ffffff" loading={newEpLoading} size={150} />;
-//    }
+    //    if(newEpLoading){
+    //     return <ClipLoader color="#ffffff" loading={newEpLoading} size={150} />;
+    //    }
 
     return (
         <>
             <div>
-                {!Loading && anime && (
+                {!Loading && anime ? (
                     <div>
                         <img src={anime.cover ? anime.cover : img
                         } alt={anime.title.english} className="w-full h-96 object-cover rounded-xl sm:h-60 sm:rounded-2xl sm:w-[85%] sm:mx-auto" />
                         <div className='flex p-0 pl-5 pr-12 relative'>
                             <div className='flex flex-col pl-14 mr-12' >
                                 <div className=''>
-                                <img src={anime.image || anime.coverImage} alt="image" className="w-56 h-75 rounded-lg mb-4 relative -top-20 shadow-lg transform hover:scale-110 transition-transform duration-200 min-w-[200px]" />
-                                {epLoading && (
-                                    <div>
-                                        <Skeleton
-                                            height={"50px"} width={"100%"} baseColor={"#d67e83"} highlightColor={"#e8bcb8"} />
-                                    </div>
-                                )}
-                                 {/* <h1 className='font-semibold text-2xl text-white mt-4 mb-2'>{anime.title.english || anime.title.romaji}</h1> */}
+                                    <img src={anime.image || anime.coverImage} alt="image" className="w-56 h-75 rounded-lg mb-4 relative -top-20 shadow-lg transform hover:scale-110 transition-transform duration-200 min-w-[200px]" />
+                                    {epLoading && (
+                                        <div>
+                                            <Skeleton
+                                                height={"50px"} width={"100%"} baseColor={"#d67e83"} highlightColor={"#e8bcb8"} />
+                                        </div>
+                                    )}
+                                    {/* <h1 className='font-semibold text-2xl text-white mt-4 mb-2'>{anime.title.english || anime.title.romaji}</h1> */}
                                 </div>
-                                
+
                             </div>
 
                             <div className='mt-5'>
@@ -158,81 +157,89 @@ function AnimeDetail() {
                                                     </Link>
                                                 )
                                             )}
-                                        
+
                                         </>
                                     ) : (
                                         <div>
+                                         { newEp ?(
                                             <BeatLoader color="#36d7b7" loading={newEpLoading} size={20} margin={5} speedMultiplier={1} />
+                                         ) :(
+                                            null
+                                         )}
                                         </div>
+                                   
                                     
                                     )}
-                                </div>
-                                <div>
-                                    {!epLoading && (
-                                        <>
-                                            {localStorageDetail !== 0 && episode?.episodes && episode?.episodes.length > 0 ? (
-                                                <Link to={`/anime/${episode.episodes[0].id}`}>
-                                                    EP-{localStorageDetail}
+                            </div>
+                            <div>
+                                {!epLoading && (
+                                    <>
+                                        {localStorageDetail !== 0 && episode?.episodes && episode?.episodes.length > 0 ? (
+                                            <Link to={`/anime/${episode.episodes[0].id}`}>
+                                                EP-{localStorageDetail}
+                                            </Link>
+                                        ) : (
+                                            episode?.episodes && (
+                                                <Link to={`/anime/${id}/${episode.providerId}/${encodeURIComponent(episode.episodes[0].id)}/${episode.episodes[0].number}/${subtype}`}>
+                                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Watch Now</button>
                                                 </Link>
-                                            ) : (
-                                                episode?.episodes && (
-                                                    <Link to={`/anime/${id}/${episode.providerId}/${encodeURIComponent(episode.episodes[0].id)}/${episode.episodes[0].number}/${subtype}`}>
-                                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Watch Now</button>
-                                                    </Link>
-                                                )
-                                            )}
+                                            )
+                                        )}
 
-                                        </>
-                                    )}
-                                </div>
-                                <div>
-                                    <h1 className='font-semibold text-2xl text-white my-5'>{anime.title.english || anime.title.romaji}</h1>
-                                </div>
+                                    </>
+                                )}
+                            </div>
+                            <div>
+                                <h1 className='font-semibold text-2xl text-white my-5'>{anime.title.english || anime.title.romaji}</h1>
+                            </div>
 
-                                <p>
-                                    <span>Type:</span>
-                                    {anime.fomat || anime.type}
-                                </p>
-                                <p>
-                                    <span>Total Episode:</span>
-                                    {anime.totalEpisodes}
-                                </p>
-                                <p>
-                                    <span>Episodes:</span>
-                                    {anime.currentEpisode}
-                                </p>
-                                <p>
-                                    <span>Duration:</span>
-                                    {anime.duration}min
-                                </p>
-                                <p>
-                                    <span>Status:</span>
-                                    {anime.status}
-                                </p>
-                                <p>
-                                    <span>Genres:</span>
-                                    {anime.genres.join(", ")}
-                                </p>
-                                <p>
-                                    <span>Rating:</span>
-                                    {anime.rating}
-                                </p>
-                                <div>
+                            <p>
+                                <span>Type:</span>
+                                {anime.fomat || anime.type}
+                            </p>
+                            <p>
+                                <span>Total Episode:</span>
+                                {anime.totalEpisodes}
+                            </p>
+                            <p>
+                                <span>Episodes:</span>
+                                {anime.currentEpisode}
+                            </p>
+                            <p>
+                                <span>Duration:</span>
+                                {anime.duration}min
+                            </p>
+                            <p>
+                                <span>Status:</span>
+                                {anime.status}
+                            </p>
+                            <p>
+                                <span>Genres:</span>
+                                {anime.genres.join(", ")}
+                            </p>
+                            <p>
+                                <span>Rating:</span>
+                                {anime.rating}
+                            </p>
+                            <div>
                                 <p>
                                     <span>Description:</span>
-                                    {isExpanded ?anime.description : `${anime.description.substring(0, 200)}...`}
+                                    {isExpanded ? anime.description : `${anime.description.substring(0, 200)}...`}
                                     <button className="text-blue-500" onClick={() => setIsExpanded(!isExpanded)}>
                                         {isExpanded ? "show less" : "read more"}
                                     </button>
 
                                 </p>
-                                </div>
                             </div>
                         </div>
                     </div>
-                )
-                }
-            </div>
+                    </div>
+            ) :(
+                    <div className="flex flex-col items-center justify-center h-screen">
+                        <BeatLoader color="#36d7b7" loading={Loading} size={15} />
+                    </div>
+                )}
+        </div >
         </>
 
     )
