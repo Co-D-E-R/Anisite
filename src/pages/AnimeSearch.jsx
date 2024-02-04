@@ -25,7 +25,7 @@ function AnimeSearch() {
             } else {
                 setAnime(res.data.results);
                 setHasNext(res.data.hasNextPage);
-                console.log(res.data.results);
+                // console.log(res.data.results);
             }
 
 

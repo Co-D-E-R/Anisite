@@ -17,7 +17,7 @@ function AnimeDetail() {
     const [Loading, setLoading] = useState(true);
     const [epLoading, setEpLoading] = useState(true);
     const [newEpLoading, setNewEpLoading] = useState(true);
-    const [newEp, setNewEp] = useState(false);
+    const [newEp, setNewEp] = useState(true);
     const { widtth } = WindowDimension();
     const [localStorageDetail, setLocalStorageDetail] = useState(0);
     const [newEpisode, setNewEpisode] = useState([]);
@@ -56,8 +56,12 @@ function AnimeDetail() {
             // if(res1.data.episodes && res1.data.episodes.length > 0){
             //     setNewEpisode(res1.data.episodes);
             // }
-            const getNewEpisodes = await fetchNewEpisode(newid.current);
-            setNewEpisode(getNewEpisodes.episodes);
+            if (newid.current) {
+                const getNewEpisodes = await fetchNewEpisode(newid.current);
+                setNewEpisode(getNewEpisodes.episodes);
+            } else {
+                setNewEp(false);
+            }
 
         } catch (error) {
             setNewEp(false);
@@ -78,7 +82,7 @@ function AnimeDetail() {
         setEpLoading(true);
         try {
             const getEpisodes = await fetchAnimeEpisode(id);
-            const animeProvider = getEpisodes.find((i) => i.providerId === 'gogoanime' || i.providerId === 'zoro');//If it founds the gogoanime provider then it will return the episode
+            const animeProvider = getEpisodes.find((i) => i.providerId === 'gogoanime');//If it founds the gogoanime provider then it will return the episode
 
             if (animeProvider) {
                 setEpisode(animeProvider);
@@ -86,7 +90,7 @@ function AnimeDetail() {
                 setEpisode(getEpisodes[0]);
             }
         } catch (error) {
-            setNewEp(true);
+            // setNewEp(true);
             console.error("Error finding the anime episode", error);
         } finally {
             setEpLoading(false);
@@ -94,9 +98,8 @@ function AnimeDetail() {
     }
     useEffect(() => {
         getData();
-        if (newEp === false) {
-            getEpisode();
-        } else {
+        getEpisode();
+        if (newEp === true) {
             getnewEpisode();
         }
 
@@ -127,10 +130,10 @@ function AnimeDetail() {
                     <div>
                         <img src={anime.cover ? anime.cover : img
                         } alt={anime.title.english} className="w-full h-96 object-cover rounded-xl sm:h-60 sm:rounded-2xl sm:w-[85%] sm:mx-auto" />
-                        <div className='flex p-0 pl-5 pr-12 relative'>
-                            <div className='flex flex-col pl-14 mr-12' >
-                                <div className=''>
-                                    <img src={anime.image || anime.coverImage} alt="image" className="w-56 h-75 rounded-lg mb-4 relative -top-20 shadow-lg transform hover:scale-110 transition-transform duration-200 min-w-[200px]" />
+                        <div className='flex flex-col sm:flex-row p-0 pl-5 pr-12 '>
+                            <div className='flex sm:flex-col sm:pl-14 sm:mr-12' >
+                                {/* <div className=''> */}
+                                    <img src={anime.image || anime.coverImage} alt="image" className="w-56 h-75 rounded-lg relative -top-20 shadow-lg transform hover:scale-110 transition-transform duration-200 min-w-[200px]" />
                                     {epLoading && (
                                         <div>
                                             <Skeleton
@@ -138,11 +141,31 @@ function AnimeDetail() {
                                         </div>
                                     )}
                                     {/* <h1 className='font-semibold text-2xl text-white mt-4 mb-2'>{anime.title.english || anime.title.romaji}</h1> */}
-                                </div>
+                                {/* </div> */}
 
                             </div>
 
-                            <div className='mt-5'>
+
+                            <div className='sm:mt-5'>
+                                <div className=' relative -top-3 mb-2'>
+                                    {!epLoading && (
+                                        <>
+                                            {localStorageDetail !== 0 && episode?.episodes && episode?.episodes.length > 0 ? (
+                                                <Link to={`/anime/${episode.episodes[0].id}`}>
+                                                    EP-{localStorageDetail}
+                                                </Link>
+                                            ) : (
+                                                episode?.episodes && (
+                                                    <Link to={`/anime/${id}/${episode.providerId}/${encodeURIComponent(episode.episodes[0].id)}/${episode.episodes[0].number}/${subtype}`}>
+                                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Watch Now</button>
+                                                    </Link>
+                                                )
+                                            )}
+
+                                        </>
+                                    )}
+                                </div>
+
                                 <div>
                                     {!newEpLoading ? (
                                         <>
@@ -161,85 +184,68 @@ function AnimeDetail() {
                                         </>
                                     ) : (
                                         <div>
-                                         { newEp ?(
-                                            <BeatLoader color="#36d7b7" loading={newEpLoading} size={20} margin={5} speedMultiplier={1} />
-                                         ) :(
-                                            null
-                                         )}
+                                            {newEp ? (
+                                                <BeatLoader color="#36d7b7" loading={newEpLoading} size={20} margin={5} speedMultiplier={1} />
+                                            ) : (
+                                                null
+                                            )}
                                         </div>
-                                   
-                                    
+
+
                                     )}
-                            </div>
-                            <div>
-                                {!epLoading && (
-                                    <>
-                                        {localStorageDetail !== 0 && episode?.episodes && episode?.episodes.length > 0 ? (
-                                            <Link to={`/anime/${episode.episodes[0].id}`}>
-                                                EP-{localStorageDetail}
-                                            </Link>
-                                        ) : (
-                                            episode?.episodes && (
-                                                <Link to={`/anime/${id}/${episode.providerId}/${encodeURIComponent(episode.episodes[0].id)}/${episode.episodes[0].number}/${subtype}`}>
-                                                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Watch Now</button>
-                                                </Link>
-                                            )
-                                        )}
+                                </div>
 
-                                    </>
-                                )}
-                            </div>
-                            <div>
-                                <h1 className='font-semibold text-2xl text-white my-5'>{anime.title.english || anime.title.romaji}</h1>
-                            </div>
+                                <div>
+                                    <h1 className='font-semibold text-2xl text-white my-5'>{anime.title.english || anime.title.romaji}</h1>
+                                </div>
 
-                            <p>
-                                <span>Type:</span>
-                                {anime.fomat || anime.type}
-                            </p>
-                            <p>
-                                <span>Total Episode:</span>
-                                {anime.totalEpisodes}
-                            </p>
-                            <p>
-                                <span>Episodes:</span>
-                                {anime.currentEpisode}
-                            </p>
-                            <p>
-                                <span>Duration:</span>
-                                {anime.duration}min
-                            </p>
-                            <p>
-                                <span>Status:</span>
-                                {anime.status}
-                            </p>
-                            <p>
-                                <span>Genres:</span>
-                                {anime.genres.join(", ")}
-                            </p>
-                            <p>
-                                <span>Rating:</span>
-                                {anime.rating}
-                            </p>
-                            <div>
                                 <p>
-                                    <span>Description:</span>
-                                    {isExpanded ? anime.description : `${anime.description.substring(0, 200)}...`}
-                                    <button className="text-blue-500" onClick={() => setIsExpanded(!isExpanded)}>
-                                        {isExpanded ? "show less" : "read more"}
-                                    </button>
-
+                                    <span>Type:</span>
+                                    {anime.fomat || anime.type}
                                 </p>
+                                <p>
+                                    <span>Total Episode:</span>
+                                    {anime.totalEpisodes}
+                                </p>
+                                <p>
+                                    <span>Episodes:</span>
+                                    {anime.currentEpisode}
+                                </p>
+                                <p>
+                                    <span>Duration:</span>
+                                    {anime.duration}min
+                                </p>
+                                <p>
+                                    <span>Status:</span>
+                                    {anime.status}
+                                </p>
+                                <p>
+                                    <span>Genres:</span>
+                                    {anime.genres.join(", ")}
+                                </p>
+                                <p>
+                                    <span>Rating:</span>
+                                    {anime.rating}
+                                </p>
+                                <div>
+                                    <p>
+                                        <span>Description:</span>
+                                        {isExpanded ? anime.description : `${anime.description.substring(0, 200)}...`}
+                                        <button className="text-blue-500" onClick={() => setIsExpanded(!isExpanded)}>
+                                            {isExpanded ? "show less" : "read more"}
+                                        </button>
+
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-            ) :(
+                ) : (
                     <div className="flex flex-col items-center justify-center h-screen">
                         <BeatLoader color="#36d7b7" loading={Loading} size={15} />
                     </div>
                 )}
-        </div >
+            </div >
         </>
 
     )
