@@ -133,22 +133,21 @@ function AnimeDetail() {
                         <div className='flex flex-col sm:flex-row p-0 pl-5 pr-12 '>
                             <div className='flex sm:flex-col sm:pl-14 sm:mr-12' >
                                 {/* <div className=''> */}
-                                    <img src={anime.image || anime.coverImage} alt="image" className="w-56 h-75 rounded-lg relative -top-20 shadow-lg transform hover:scale-110 transition-transform duration-200 min-w-[200px]" />
-                                    {epLoading && (
-                                        <div>
-                                            <Skeleton
-                                                height={"50px"} width={"100%"} baseColor={"#d67e83"} highlightColor={"#e8bcb8"} />
-                                        </div>
-                                    )}
-                                    {/* <h1 className='font-semibold text-2xl text-white mt-4 mb-2'>{anime.title.english || anime.title.romaji}</h1> */}
-                                {/* </div> */}
+                                <img src={anime.image || anime.coverImage} alt="image" className="w-56 h-75 rounded-lg relative -top-20 shadow-lg transform hover:scale-110 transition-transform duration-200 min-w-[200px]" />
+                                {epLoading && (
+                                    <div>
+                                        <Skeleton
+                                            height={"50px"} width={"100%"} baseColor={"#d67e83"} highlightColor={"#e8bcb8"} />
+                                    </div>
+                                )}
+
 
                             </div>
 
 
                             <div className='sm:mt-5'>
                                 <div className=' relative -top-3 mb-2'>
-                                    {!epLoading && (
+                                    {!epLoading ? (
                                         <>
                                             {localStorageDetail !== 0 && episode?.episodes && episode?.episodes.length > 0 ? (
                                                 <Link to={`/anime/${episode.episodes[0].id}`}>
@@ -157,12 +156,17 @@ function AnimeDetail() {
                                             ) : (
                                                 episode?.episodes && (
                                                     <Link to={`/anime/${id}/${episode.providerId}/${encodeURIComponent(episode.episodes[0].id)}/${episode.episodes[0].number}/${subtype}`}>
-                                                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Watch Now</button>
+                                                        <button className="bg-custom-blue hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" >Watch Now</button>
                                                     </Link>
                                                 )
                                             )}
 
                                         </>
+                                    ) : (
+                                        <div>
+                                            <BeatLoader color="#8A8AFF" loading={newEpLoading} size={20} margin={5} speedMultiplier={1} />
+                                        </div>
+
                                     )}
                                 </div>
 

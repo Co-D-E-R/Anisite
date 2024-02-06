@@ -27,14 +27,14 @@
 
   @media (max-width: 768px) {
     .cardimage {
-      width: 135px !important;
-      height: 190px !important;
+      width: 145px !important;
+      height: 210px !important;
       object-fit: cover;
       border-radius: 0.375rem;
     }
     .animecarditem{
-      width: 135px;
-      height: 230px;
-      margin-right: 10px;
+      width: 145px;
+      height: 250px;
+      /* margin-right: 10px; */
     }
   }

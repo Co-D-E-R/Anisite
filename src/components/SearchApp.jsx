@@ -22,7 +22,6 @@ function SearchApp() {
         try {
             const res = await axios.get(`${import.meta.env.VITE_URL}/meta/anilist/advanced-search`, { params: { query: query, sort: ["POPULARITY_DESC", "SCORE_DESC"] } });
             setResult(res.data);
-            // console.log(res.data);
             setLoading(false);
         } catch (error) {
             console.log(error);
@@ -66,7 +65,7 @@ function SearchApp() {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-2xl bg-blue-950 transform overflow-hidden rounded-2xl p-6 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="w-full max-w-2xl bg-gray-950 transform overflow-hidden rounded-2xl p-6 text-left align-middle shadow-xl transition-all">
                                     <Dialog.Title
                                         as="h3"
                                         className="text-lg font-medium leading-6 text-white"
@@ -74,34 +73,31 @@ function SearchApp() {
                                         Search Bar
                                     </Dialog.Title>
                                     <Combobox as="div" onChange={(e) => {
-                                        // navigate(`/anime/info/${e.target.value}`);
-                                        // console.log("h--->",e);
-                                        setisopen(false);
                                         setResult(null);
-                                        setQuery("");
                                     }}>
                                         <div className="flex justify-between">
                                             <div className="flex-grow pr-1 ">
                                                 <Combobox.Input
                                                     ref={searchRef}
-                                                    className="mt-1 block w-full h-8  bg-slate-700 border border-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm rounded-md"
+                                                    className="mt-1 block w-full h-8  bg-gray-800 border border-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-sm rounded-md"
                                                     placeholder="Search Anime"
                                                     value={query}
                                                     onChange={(e) => {
                                                         setQuery(e.target.value);
                                                     }}
                                                     onKeyDown={(e) => {
-                                                        if (e.key === "Enter" && result?.results?.lenght > 0) {
+                                                        if (e.key === "Enter" && result?.results?.length > 0) {
                                                             setisopen(false);
                                                             setResult(null);
                                                             setQuery("");
-                                                            navigate(`/anime/search/${query}`)
+                                                            navigate(`/anime/search/${e.target.value}`)
                                                         }
                                                     }}
                                                     autoComplete="off"
                                                 />
-                                                
-                                                <Combobox.Options static className=" bg-blue-950t border-spacing-y-1 rounded-md">
+
+
+                                                <Combobox.Options static onClick={()=> setisopen(false)} className="border-spacing-y-1   h-64 rounded-md overflow-y-auto scrollbar scrollbar-thumb-gray-500 scrollbar-track-gray-900">
                                                     {!Loading ? (
                                                         <Fragment>
                                                             {result?.results?.length > 0
@@ -110,12 +106,19 @@ function SearchApp() {
                                                                         key={i.id}
                                                                         value={i.id}
                                                                         className={({ active }) => `${active ? " px-1  text-white hover:bg-blue-900" : ""}}`}
-                                                                        onClick={() => navigate(`/anime/info/${i.id}/${i.title.romaji || i.title.engilsh}`)}
+                                                                        onClick={() =>
+                                                                                navigate(`/anime/info/${i.id}/${i.title.romaji || i.title.engilsh}`)
+                                                                        }
                                                                     >
-                                                                        <div className="pl-3 mt-1 mb-1 h-6 cursor-pointer hover:h-9 hover:bg-red-800 hover:rounded-md">
-                                                                            <p>
-                                                                                {i.title.english || i.title.romaji}
-                                                                            </p>
+                                                                        <div className="flex flex-row hover:border hover:border-gray-500 hover:rounded-md h-16 mt-2">
+                                                                            <div>
+                                                                                <img src={i.image} alt={i.title.english || i.title.romaji} className="w-19 h-16" />
+                                                                            </div>
+                                                                            <div className="pl-3 mt-1 mb-1 h-6 cursor-pointer hover:h-9 hover:bg-black hover:rounded-md">
+                                                                                <p>
+                                                                                    {i.title.english || i.title.romaji}
+                                                                                </p>
+                                                                            </div>
                                                                         </div>
                                                                     </Combobox.Option>
                                                                 )) :
@@ -124,7 +127,7 @@ function SearchApp() {
                                                                         No results found.
                                                                     </p>
                                                                 )}
-                                                    
+
                                                         </Fragment>
                                                     ) : (
                                                         query !== "" &&
@@ -138,7 +141,7 @@ function SearchApp() {
                                             <div className="">
                                                 <button
                                                     type="button"
-                                                    className="flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                                    className="flex justify-center rounded-md border border-transparent bg-gray-800 px-4 py-2 text-sm font-medium text-blue-100 hover:bg-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                                     onClick={() => {
                                                         navigate(`/anime/search/${query}`)
                                                         setisopen(false);
@@ -148,6 +151,7 @@ function SearchApp() {
                                                     Search
                                                 </button>
                                             </div>
+
 
                                         </div>
 

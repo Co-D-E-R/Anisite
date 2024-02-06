@@ -63,7 +63,7 @@ function AnimeCard({ url }) {
                     {data.map((anime) => (
                         <SwiperSlide key={anime.id} className='animecarditem flex-col overflow-scroll  p-1 mr-3 rounded-md w-44 h-75' >
                             <Link to={`/anime/info/${anime.id}/${anime.title.romaji}`}>
-                                <img src={anime.image} alt={anime.image.title} loading='lazy' className=" cardimage w-44 h-64 object-cover rounded-md" />
+                                <img src={anime.image} alt={anime.image.title} loading='lazy' className=" cardimage w-65 h-64 object-cover rounded-md" />
                             </Link>
                             <div className=" flex items-center relative overflow-hidden scroll-smooth">
                                 <p className='animetitle overflow-hidden text-ellipsis

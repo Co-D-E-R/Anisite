@@ -21,7 +21,8 @@
     "react-router-dom": "^6.21.3",
     "react-spinners": "^0.13.8",
     "react-use-draggable-scroll": "^0.4.7",
-    "swiper": "^11.0.5"
+    "swiper": "^11.0.5",
+    "tailwind-scrollbar": "^3.0.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

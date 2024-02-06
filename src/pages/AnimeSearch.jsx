@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import axios from "axios";
 import { useState, useEffect } from "react";
 import AllAnime from "../components/AllAnime";
+import { useParams } from 'react-router-dom';
 
 
 
@@ -12,10 +12,13 @@ function AnimeSearch() {
     const [loading, setLoading] = useState(true);
     const [page, setPage] = useState(1);
     const [hasNext, setHasNext] = useState(true);
-    const [query, setQuery] = useState("");
+    const { searchQuery } = useParams();
+    const [query, setQuery] = useState(searchQuery || "");
+
+  
+
 
     const getData = async () => {
-        setLoading(false);
         try {
             const res = await axios.get(`${import.meta.env.VITE_URL}/meta/anilist/advanced-search`, { params: { query: query, sort: ["POPULARITY_DESC", "SCORE_DESC"],page:page } });
 
@@ -25,8 +28,8 @@ function AnimeSearch() {
             } else {
                 setAnime(res.data.results);
                 setHasNext(res.data.hasNextPage);
-                // console.log(res.data.results);
             }
+            setLoading(false);
 
 
         } catch (error) {
@@ -36,6 +39,8 @@ function AnimeSearch() {
             setLoading(true);
         }
     }
+
+
     useEffect(() => {
         getData();
     }, [page, query]);
@@ -43,19 +48,11 @@ function AnimeSearch() {
     const handlechange = (e) => {
         setQuery(e.target.value);
         setPage(1);
-
     }
-    // useEffect(() => {
-    //     window.onscroll = function (ev) {
-    //         if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight) {
-    //             setPage((prev) => prev + 1);
-    //         }
-    //     };
 
-    // }, [page, hasNext])
     useEffect(() => {
         const handleScroll = (ev) => {
-            if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight - 3) {
+            if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight - 3 && hasNext) {
                 setPage((prev) => prev + 1);
             }
         };
@@ -65,7 +62,7 @@ function AnimeSearch() {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
+    }, [page,hasNext]);
 
 
     return (
@@ -73,9 +70,9 @@ function AnimeSearch() {
         <div>
             {/* <div className="font-medium text-blue-700 justify-center  text-xl "> */}
                
-            <div className=" border-spacing-2 mx-5 my-7 justify-center text-center font-medium text-xl outline-none  text-white">
+            <div className=" border-spacing-2 mx-5 my-7 justify-center text-center font-medium text-xl outline-none  text-blue-50">
                 <h1 className='my-3'>Search Box</h1>
-                <input type="text" placeholder="Search Anime" onChange={(e) => handlechange(e)} className='bg-black rounded-xl h-10 w-1/2 md:w-2/5 mx-auto text-gray-300' />
+                <input type="text" placeholder="Search Anime" value={query} onChange={(e) => handlechange(e)} className='bg-gray-950 rounded-xl h-10 w-1/2 md:w-2/5 mx-auto text-gray-300' />
             </div>
             {loading ? (
             <>
@@ -85,7 +82,7 @@ function AnimeSearch() {
                 )
                 }
             </div>
-            <div className="font-medium text-blue-700 justify-center  text-xl text-center">
+            <div className="font-medium text-blue-50 justify-center  text-xl text-center">
                 {!hasNext && <span>END OF THE PAGE</span>}
             </div>
             </>

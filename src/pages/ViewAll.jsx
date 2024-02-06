@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from 'react-router-dom';
 import axios from "axios";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AllAnime from "../components/AllAnime";
 
@@ -12,7 +11,7 @@ function ViewAll() {
   const [hasNext, setHasNext] = useState(true);
   const { url } = useParams();
 
-  const containerRef = useRef();
+ 
 
 
 
@@ -31,7 +30,7 @@ function ViewAll() {
       } else {
         setAnime(res.data.results);
         setHasNext(res.data.hasNextPage);
-        // console.log(res.data);
+      
       }
       setLoading(false);
     } catch (error) {
@@ -63,10 +62,10 @@ function ViewAll() {
 
 
   return <>
-    <h1 className="font-semibold pl-7 py-2 b text-xl">{url.toUpperCase()}</h1>
-    <div className="grid g)rid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mx-auto w-11/12 justify-center">
-      {anime.map((i) =>
-        <AllAnime key={i.id} anime={i} />
+    <h1 className="font-semibold pl-7 my-4 text-center text-blue-500 text-xl">{url.toUpperCase()} ANIME</h1>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 mx-auto w-11/12 justify-center">
+      {anime.map((i,index) =>
+        <AllAnime key={index} anime={i} />
       )
       }
     </div>
