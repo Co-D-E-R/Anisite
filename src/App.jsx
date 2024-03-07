@@ -13,9 +13,11 @@ import AnimePlayer from './pages/AnimePlayer';
 import AnimeSearch from './pages/AnimeSearch';
 import NewAnimePlayer from './pages/NewAnimePlayer';
 
+
 function App() {
   return (
     <>
+    <div className=''>
     <GetData>
     <Router>
       <Navbar/>
@@ -35,6 +37,7 @@ function App() {
       </div>
     </Router>
     </GetData>
+    </div>
       
     </>
   )
