@@ -23,6 +23,7 @@ function AnimeDetail() {
     const [newEpisode, setNewEpisode] = useState([]);
     const subtype = "sub";
     const newid = useRef(null);
+   
 
 
     const getData = async () => {
@@ -49,6 +50,7 @@ function AnimeDetail() {
         setNewEpLoading(true);
         try {
             const res = await axios.get(`${import.meta.env.VITE_URL}/anime/gogoanime/${title}`);
+            
             if (res.data.results && res.data.results[0]) {
                 newid.current = res.data.results[0].id
             }
@@ -58,7 +60,16 @@ function AnimeDetail() {
             // }
             if (newid.current) {
                 const getNewEpisodes = await fetchNewEpisode(newid.current);
-                setNewEpisode(getNewEpisodes.episodes);
+
+                console.log("newEpisodes", getNewEpisodes);
+                if(getNewEpisodes){
+                    setNewEpisode(getNewEpisodes?.episodes);
+                }else{
+                    setNewEp(false);
+                    setNewEpisode(null);
+                    setNewEpLoading(true);
+                }
+               
             } else {
                 setNewEp(false);
             }
@@ -90,12 +101,13 @@ function AnimeDetail() {
                 setEpisode(getEpisodes[0]);
             }
         } catch (error) {
-            // setNewEp(true);
+            setNewEp(false);
             console.error("Error finding the anime episode", error);
         } finally {
             setEpLoading(false);
         };
     }
+
     useEffect(() => {
         getData();
         getEpisode();
@@ -179,7 +191,7 @@ function AnimeDetail() {
                                                 </Link>
                                             ) : (
                                                 newEpisode && (
-                                                    <Link to={`/anime/${newid.current}/gogoanime/${encodeURIComponent(newEpisode[0].id)}/${newEpisode[0].number}`}>
+                                                    <Link to={`/anime/${newid?.current}/gogoanime/${encodeURIComponent(newEpisode[0]?.id)}/${newEpisode[0]?.number}`}>
                                                         <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" >New Server</button>
                                                     </Link>
                                                 )

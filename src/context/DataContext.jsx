@@ -47,7 +47,12 @@ const GetData = ({ children }) => {
             return res1.data;
 
         } catch (error) {
-            console.log(error, "Error finding the new anime data");
+            if(error.response && error.response.status === 404){
+                console.log("The requested resource was not found");
+                
+            }else{
+                console.log(error, "Error finding the new anime data");
+            } 
             return null;
         }
 
