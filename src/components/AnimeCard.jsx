@@ -67,7 +67,7 @@ function AnimeCard({ url }) {
                             </Link>
                             <div className=" flex items-center relative overflow-hidden scroll-smooth">
                                 <p className='animetitle overflow-hidden text-ellipsis
-                                            text-yellow-20 text-center text-sm mx-0.5 w-full'>
+                                            text-yellow-20 text-center text-sm mx-0.5 '>
                                     {anime.title.english ? anime.title.english : anime.title.romaji}
                                 </p>
                             </div>

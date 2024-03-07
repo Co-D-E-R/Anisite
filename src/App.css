@@ -12,7 +12,7 @@ body{
   color:white
   
 } */
-*,
+
 *::before,
 *::after {
   margin: 0;
