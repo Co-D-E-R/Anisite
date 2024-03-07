@@ -37,7 +37,13 @@ const GetData = ({ children }) => {
             //     newid.current =res.data.results[0].id
             // }
 
-            const res1 = await axios.get(`${import.meta.env.VITE_URL}/anime/gogoanime/info/${newid}`);
+            // const res1 = await axios.get(`${import.meta.env.VITE_URL}/anime/gogoanime/info/${newid}`);
+            const res1 = await axios.get(`${import.meta.env.VITE_URL}/meta/anilist/info/${newid}`,{
+                params:{
+                    type:"gogoanime"
+                }
+            });
+       
             if (res1.status !== 200) {
                 throw new Error(res1.status + " " + res1.statusText);
             }

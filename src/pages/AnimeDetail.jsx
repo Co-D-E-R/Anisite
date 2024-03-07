@@ -49,27 +49,33 @@ function AnimeDetail() {
     const getnewEpisode = async () => {
         setNewEpLoading(true);
         try {
-            const res = await axios.get(`${import.meta.env.VITE_URL}/anime/gogoanime/${title}`);
+            const res = await axios.get(`${import.meta.env.VITE_URL}/meta/anilist/info/${id}`,{
+                params:{
+                    type:"gogoanime"
+                }
+            });
+            console.log("res", res.data);
             
-            if (res.data.results && res.data.results[0]) {
-                newid.current = res.data.results[0].id
+            if (res.data?.episodes && res.data?.episodes[0]) {
+                newid.current = res.data?.episodes[0].id
             }
             // const res1  = await axios.get(`${import.meta.env.VITE_URL}/anime/gogoanime/info/${newid.current}`);
             // if(res1.data.episodes && res1.data.episodes.length > 0){
             //     setNewEpisode(res1.data.episodes);
             // }
             if (newid.current) {
-                const getNewEpisodes = await fetchNewEpisode(newid.current);
+                const getNewEpisodes = await fetchNewEpisode(id);
+                setNewEpisode(getNewEpisodes?.episodes);
 
-                console.log("newEpisodes", getNewEpisodes);
-                if(getNewEpisodes){
-                    setNewEpisode(getNewEpisodes?.episodes);
-                }else{
-                    setNewEp(false);
-                    setNewEpisode(null);
-                    setNewEpLoading(true);
-                }
-               
+                // console.log("newEpisodes", getNewEpisodes);
+                // if(getNewEpisodes){
+                //     setNewEpisode(getNewEpisodes?.episodes);
+                // }else{
+                //     setNewEp(false);
+                //     setNewEpisode(null);
+                //     setNewEpLoading(true);
+                // }
+  
             } else {
                 setNewEp(false);
             }
@@ -191,9 +197,12 @@ function AnimeDetail() {
                                                 </Link>
                                             ) : (
                                                 newEpisode && (
-                                                    <Link to={`/anime/${newid?.current}/gogoanime/${encodeURIComponent(newEpisode[0]?.id)}/${newEpisode[0]?.number}`}>
+                                                    // <Link to={`/anime/${newid?.current}/gogoanime/${encodeURIComponent(newEpisode[0]?.id)}/${newEpisode[0]?.number}`}>
+                                                    //     <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" >New Server</button>
+                                                    // </Link>
+                                                    <Link to={`/anime/${id}/gogoanime/${encodeURIComponent(newEpisode[0]?.id)}/${newEpisode[0]?.number}`}>
                                                         <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" >New Server</button>
-                                                    </Link>
+                                                     </Link>
                                                 )
                                             )}
 

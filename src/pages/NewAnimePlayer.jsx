@@ -16,7 +16,7 @@ function NewAnimePlayer(){
     const subtype = "sub";
     
 
-    const currentEpIndex = data.episodes.find((i) => i.number === parseInt(epnum,10));
+    const currentEpIndex = data?.episodes.find((i) => i.number === parseInt(epnum,10));
     useEffect(() =>{
         const getData = async () =>{
             try{
