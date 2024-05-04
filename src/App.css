@@ -13,7 +13,7 @@ body{
   
 } 
 
-/* *::before,
+ *::before,
 *::after {
   margin: 0;
   padding: 0;
@@ -21,21 +21,20 @@ body{
 
 }
 
-html, body {
+/* html, body {
   height: 100%;
   width: 100%;
   overflow: auto;
   margin: 0;
   padding: 0; 
-}
+} */
 
 
 body {
   background: rgb(6, 6, 6);
   color: white;
-} */
+} 
 
-/* This applies to the entire document */
  ::-webkit-scrollbar {
   width: 10px; 
 } 

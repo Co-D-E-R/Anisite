@@ -1,6 +1,6 @@
+import React, { useContext, useEffect, useState, useRef } from "react";
 import WindowDimension from '../Utils/WindowDimension';
 import axios from "axios";
-import React, { useContext, useEffect, useState, useRef } from "react";
 import { DataContext } from "../context/DataContext";
 import img from "../assets/notFound.jpg";
 import { useParams, Link } from "react-router-dom";

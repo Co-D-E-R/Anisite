@@ -52,7 +52,7 @@ function AnimeSearch() {
 
     useEffect(() => {
         const handleScroll = (ev) => {
-            console.log("scrolling");
+            // console.log("scrolling");
             if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight - 10 && hasNext) {
                 setPage((prev) => prev + 1);
             }

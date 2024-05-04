@@ -14,7 +14,7 @@ function Bottom() {
             </span>
 
             <ul className="flex flex-wrap items-center mt-3 sm:mt-0">
-                <img src={github} alt="" className='h-10 w-10' />
+                {/* <img src={github} alt="" className='h-10 w-10' /> */}
                 <li>
                     <a href="#" className="mr-4 text-sm text-gray-500 hover:underline md:mr-6 dark:text-gray-400">About</a>
                 </li>
