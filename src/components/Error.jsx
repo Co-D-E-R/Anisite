@@ -1,3 +1,4 @@
+import React from "react";
 import WindowDimensions from "../Utils/WindowDimension";
 
 function Error() {
