@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 const DataContext = createContext();
 
 const GetData = ({ children }) => {
@@ -54,10 +55,15 @@ const GetData = ({ children }) => {
 
         } catch (error) {
             if(error.response && error.response.status === 404){
+                <Link to="/anime/error">Error Page</Link>
                 console.log("The requested resource was not found");
+               
                 
             }else{
+                <Link to="/anime/error">Error Page</Link>
                 console.log(error, "Error finding the new anime data");
+                
+                
             } 
             return null;
         }
@@ -76,7 +82,9 @@ const GetData = ({ children }) => {
             setGlobalEpisode(response.data);
             return response.data;
         } catch (error) {
+            <Link to="/anime/error">Error Page</Link>
             console.error("Error finding the anime episode", error);
+            
             return null;
         }
     };
@@ -95,8 +103,9 @@ const GetData = ({ children }) => {
             );
             setGlobalData(response.data);
             return response.data;
-        } catch (error) {
+        } catch (error) { 
             console.error("Error fetching anime details:", error);
+            <Link to="/anime/error">Error Page</Link>
             return null; // or handle the error as needed
         }
     };

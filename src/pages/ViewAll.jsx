@@ -11,7 +11,7 @@ function ViewAll() {
   const [hasNext, setHasNext] = useState(true);
   const { url } = useParams();
 
- 
+
 
 
 
@@ -30,7 +30,7 @@ function ViewAll() {
       } else {
         setAnime(res.data.results);
         setHasNext(res.data.hasNextPage);
-      
+
       }
       setLoading(false);
     } catch (error) {
@@ -45,7 +45,7 @@ function ViewAll() {
 
   useEffect(() => {
     const handleScroll = (ev) => {
-      if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight - 3) {
+      if ((window.innerHeight + Math.round(window.scrollY)) >= document.body.offsetHeight - 10 && hasNext) {
         setPage((prev) => prev + 1);
       }
     };
@@ -55,7 +55,7 @@ function ViewAll() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-
+   
 
   }, [page, hasNext])
 
@@ -64,7 +64,7 @@ function ViewAll() {
   return <>
     <h1 className="font-semibold pl-7 my-4 text-center text-blue-500 text-xl">{url.toUpperCase()} ANIME</h1>
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 mx-auto w-11/12 justify-center">
-      {anime.map((i,index) =>
+      {anime.map((i, index) =>
         <AllAnime key={index} anime={i} />
       )
       }

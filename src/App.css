@@ -2,22 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-/* *{
+ /* *{
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-}
+  box-sizing: border-box; */
+/* } */
 body{
   background: black;
   color:white
   
-} */
+} 
 
-*::before,
+/* *::before,
 *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+
 }
 
 html, body {
@@ -25,30 +26,30 @@ html, body {
   width: 100%;
   overflow: auto;
   margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+  padding: 0; 
 }
+
 
 body {
   background: rgb(6, 6, 6);
   color: white;
-}
+} */
 
 /* This applies to the entire document */
-::-webkit-scrollbar {
-  width: 10px; /* width of the entire scrollbar */
-}
+ ::-webkit-scrollbar {
+  width: 10px; 
+} 
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; /* color of the tracking area */
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #9195F6; /* color of the scroll thumb */
-  /* roundness of the scroll thumb */
+  background: #9195F6;
+  
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #B7C9F2; /* color of the scroll thumb when hovering */
+  background: #B7C9F2; 
 }
 

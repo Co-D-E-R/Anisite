@@ -25,7 +25,7 @@ function Navbar() {
   }, [setisopen]);
 
   return (
-    <div className="flex bg-black  bg-opacity-30 h-12 fixe w-full z-1000 backdrop-blur align-middle 
+    <div style={{ width: '95%' }}  className="flex content-center bg-black  bg-opacity-30 h-12 fixe  z-1000 backdrop-blur align-middle 
              md:justify-between md:align-middle md:h-12 md:bg-black md:bg-opacity-40">
       <div className="navbar-left">
         <div className=" text-white text-center decoration-none pl-2 text-3xl">
