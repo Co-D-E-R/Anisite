@@ -42,12 +42,12 @@ Open your web browser and visit http://localhost:3000 to start using the applica
 
 ## Built
 
--React.js
--Tailwind CSS
--Consumet API
--ArtPlayer
--Axios
--HLS.js
+- React.js
+- Tailwind CSS
+- Consumet API
+- ArtPlayer
+- Axios
+- HLS.js
 
 ## Contributing
 
