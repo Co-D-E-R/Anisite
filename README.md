@@ -10,7 +10,7 @@ Anisite is a web application for streaming anime. It provides a user-friendly in
 - Search for specific anime
 - Watch anime episodes
 - Autoplay next episode
-- Remember last watched episode
+
 
 ## Getting Started
 
@@ -27,26 +27,34 @@ These instructions will get you a copy of the project up and running on your loc
 1. Clone the repository
 
 ```sh
-git clone https://github.com/yourusername/anisite.git
+git clone https://github.com/Co-D-E-R/Anisite.git
 
 2.Install NPM packages
 
-```sh
 npm install
 
 3. Start the development server
-
-```sh
 npm run dev
 
-
-##
-Usage
+4.Usage
 Open your web browser and visit http://localhost:3000 to start using the application.
 
-Built With
+```
+
+## Built 
+
 React.js
+Tailwind CSS
+Consumet API
 ArtPlayer
 Axios
 HLS.js
-Anime API
+
+## Contributing
+
+Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details
+
