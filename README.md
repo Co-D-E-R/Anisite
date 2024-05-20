@@ -11,7 +11,6 @@ Anisite is a web application for streaming anime. It provides a user-friendly in
 - Watch anime episodes
 - Autoplay next episode
 
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
@@ -41,14 +40,14 @@ Open your web browser and visit http://localhost:3000 to start using the applica
 
 ```
 
-## Built 
+## Built
 
-React.js
-Tailwind CSS
-Consumet API
-ArtPlayer
-Axios
-HLS.js
+-React.js
+-Tailwind CSS
+-Consumet API
+-ArtPlayer
+-Axios
+-HLS.js
 
 ## Contributing
 
