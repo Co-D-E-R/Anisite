@@ -112,10 +112,29 @@ const GetData = ({ children }) => {
 
 
     useEffect(() => {
-        localStorage.setItem("newEpData", JSON.stringify(data));
-        localStorage.setItem("anifyEpisodes", JSON.stringify(episode));
-        localStorage.setItem("storedata", JSON.stringify(animeData));
-
+        try{
+            localStorage.setItem("newEpData", JSON.stringify(data));
+        }catch(e){
+            if(e.name === "QuotaExceededError"){
+                console.log("Local Storage is Full");
+            }
+        }
+        try{
+            localStorage.setItem("anifyEpisodes", JSON.stringify(episode));
+        }catch(e){
+            if(e.name === "QuotaExceededError"){
+                console.log("Local Storage is Full");
+            }
+        }
+        try{
+            localStorage.setItem("storedata", JSON.stringify(animeData));
+        }catch(e){
+            if(e.name === "QuotaExceededError"){
+                console.log("Local Storage is Full");
+            }
+        }
+        
+        
         const anifyImage = async (animeData) => {
             if (animeData && animeData.id) {
                 const response = await axios.get(`${import.meta.env.VITE_ANI_URL}info/${animeData.id}?fields=[bannerImage]`);
